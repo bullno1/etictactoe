@@ -1,0 +1,18 @@
+#board {
+	display: table;
+}
+
+.row {
+	display: table-row;
+}
+
+.row > span {
+	border-style: solid;
+	border-width: 1px;
+	width: 30px;
+	height: 30px;
+	display: table-cell;
+	text-align: center;
+	text-transform: uppercase;
+	vertical-align: middle;
+}

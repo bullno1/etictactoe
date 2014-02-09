@@ -1,0 +1,17 @@
+{application, etictactoe, [
+	{description, "Tictactoe game using Cowboy"},
+	{vsn, "0.1.0"},
+	{modules, []},
+	{registered, [etictactoe_sup]},
+	{applications, [
+		kernel,
+		stdlib,
+		cowboy,
+		gproc,
+		crypto,
+		base64url,
+		jsx
+	]},
+	{mod, {etictactoe, []}},
+	{env, []}
+]}.

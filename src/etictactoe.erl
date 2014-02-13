@@ -4,20 +4,24 @@
 -export([start/2, stop/1]).
 
 start(_, _) ->
-	{ok, _} = cowboy:start_http(etictactoe_http, 100, [{port, 8080}], http_opts()),
+	Dispatch = dispatch(),
+	HttpOpts = [
+		{env, [{dispatch, Dispatch}]},
+		{compress, true}
+	],
+	{ok, _} = cowboy:start_http(etictactoe_http, 100, [{port, 8080}], HttpOpts),
 	etictactoe_sup:start_link().
 	
 stop(_) ->
 	ok.
 
 reload_routes() ->
-	ranch:set_protocol_options(etictactoe_http, http_opts()).
+	cowboy:set_env(etictactoe_http, dispatch, dispatch()).
 
 % Private
 
-http_opts() ->
-	Dispatch = cowboy_router:compile([{'_', routes()}]),
-	[{env, [{dispatch, Dispatch}]}].
+dispatch() ->
+	cowboy_router:compile([{'_', routes()}]).
 
 routes() ->
 	[{"/", cowboy_static, {priv_file, etictactoe, "www/index.html"}}
